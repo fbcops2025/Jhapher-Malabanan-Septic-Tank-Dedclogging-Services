@@ -6,6 +6,9 @@ import sys
 import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+from content.blog_posts import get_post_slugs
+
 HTML_FILES = [
     "index.html",
     "services.html",
@@ -17,9 +20,10 @@ HTML_FILES = [
     "rizal.html",
     "cavite-laguna.html",
     "guides.html",
-    "septic-tank-warning-signs.html",
+    "blog.html",
     "contact.html",
     "about.html",
+    *[f"{slug}.html" for slug in get_post_slugs()],
 ]
 
 

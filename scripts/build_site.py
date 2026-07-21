@@ -1,8 +1,12 @@
 from html import escape
 from pathlib import Path
 import json
+import sys
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+from content.blog_posts import BLOG_POSTS, CATEGORIES
+
 DOMAIN = "https://example.com"
 PHONE_1 = "0999 744 2521"
 PHONE_2 = "0977 206 8785"
@@ -11,7 +15,7 @@ VIBER = "0927 437 4428"
 NAV = [
     ("Services", "services.html"),
     ("Service Areas", "service-areas.html"),
-    ("Helpful Guides", "guides.html"),
+    ("Blog", "blog.html"),
     ("About", "about.html"),
     ("Contact", "contact.html"),
 ]
@@ -65,6 +69,47 @@ def area_links():
       <a href="rizal.html"><span>02</span><strong>Rizal</strong><small>Antipolo, Cainta, Taytay and nearby towns</small></a>
       <a href="cavite-laguna.html"><span>03</span><strong>Cavite and Laguna</strong><small>Selected cities and municipalities by confirmation</small></a>
     </div>'''
+
+
+def blog_cards(posts, limit=None):
+    items = posts[:limit] if limit else posts
+    return cards([
+        (post["category"].upper(), post["h1"].rstrip("."), post["summary"], f'{post["slug"]}.html')
+        for post in items
+    ])
+
+
+def render_blog_article(post):
+    mid = max(len(post["sections"]) // 2, 1)
+    figure = f'''<figure><img src="{post["image"]}" alt="Educational concept image for {escape(post["category"].lower())} guidance" width="1600" height="900" loading="lazy"><figcaption>Concept image for customer education. Actual property conditions and access vary.</figcaption></figure>'''
+    section_parts = [f"<h2>{escape(title)}</h2><p>{escape(text)}</p>" for title, text in post["sections"]]
+    body_sections = "".join(section_parts[:mid] + [figure] + section_parts[mid:])
+    callout = ""
+    if post.get("callout_title"):
+        callout = f'''<div class="article-callout"><h2>{escape(post["callout_title"])}</h2><p>{escape(post["callout_text"])}</p><a class="button button-dark" href="{post["callout_href"]}">{escape(post["callout_label"])}</a></div>'''
+    checklist = ""
+    if post.get("checklist"):
+        items = "".join(f"<li>{escape(item)}</li>" for item in post["checklist"])
+        checklist = f'<h2>{escape(post["checklist_title"])}</h2><ul>{items}</ul>'
+    related = ""
+    if post.get("related"):
+        links = "".join(f'<a class="text-link" href="{href}">{escape(label)} <span>→</span></a>' for href, label in post["related"])
+        related = f'<div class="related-reads"><h2>Related reads</h2><div class="related-links">{links}</div></div>'
+    return f'''
+<section class="article-layout section"><article class="article shell">
+<p class="article-kicker">{escape(post["category"])} · Practical guide</p>
+<p class="article-lead">{escape(post["lead"])}</p>
+{body_sections}
+{callout}
+{checklist}
+{related}
+</article></section>
+<section class="section section-sand"><div class="shell"><div class="section-heading compact"><span class="kicker">How the service works</span><h2>From reading to a clear next step</h2></div>{process_steps([
+('Match the symptom pattern','Note whether one fixture or several areas are affected.'),
+('Share useful details','Send location, symptoms, and safe photos when possible.'),
+('Confirm the likely service','Discuss siphoning, cleaning, or declogging before scheduling.'),
+])}</div></section>
+'''
 
 
 def page(slug, title, description, eyebrow, h1, intro, body, hero_image=None, schema_type="LocalBusiness"):
@@ -139,7 +184,7 @@ def page(slug, title, description, eyebrow, h1, intro, body, hero_image=None, sc
     <div class="shell closing-grid"><div><span class="eyebrow dark">Clear next step</span><h2>Tell us what is happening. We will help identify the right service.</h2><p>Send your city or barangay, a short description, and clear photos when safe. For urgent overflow or backup, call first.</p></div><div class="closing-actions"><a class="button button-primary" href="tel:09997442521">Call {PHONE_1}</a><a class="button button-outline" href="tel:09772068785">Call {PHONE_2}</a><a class="button button-outline" href="viber://chat?number=%2B639274374428">Viber {VIBER}</a></div></div>
   </section>
   <footer class="site-footer">
-    <div class="shell footer-grid"><div class="footer-brand"><strong>Jhapher Malabanan</strong><small>Septic Tank and Declogging Services</small><p>Pasig City-based service coordination for septic tank siphoning, pozo negro cleaning, and declogging across listed service areas.</p></div><div><h2>Services</h2><a href="septic-tank-siphoning.html">Septic tank siphoning</a><a href="pozo-negro-cleaning.html">Pozo negro cleaning</a><a href="declogging-services.html">Declogging services</a></div><div><h2>Coverage</h2><a href="metro-manila.html">Metro Manila</a><a href="rizal.html">Rizal</a><a href="cavite-laguna.html">Cavite and Laguna</a></div><div><h2>Contact</h2><a href="tel:09997442521">{PHONE_1}</a><a href="tel:09772068785">{PHONE_2}</a><a href="viber://chat?number=%2B639274374428">Viber {VIBER}</a></div></div>
+    <div class="shell footer-grid"><div class="footer-brand"><strong>Jhapher Malabanan</strong><small>Septic Tank and Declogging Services</small><p>Pasig City-based service coordination for septic tank siphoning, pozo negro cleaning, and declogging across listed service areas.</p></div><div><h2>Services</h2><a href="septic-tank-siphoning.html">Septic tank siphoning</a><a href="pozo-negro-cleaning.html">Pozo negro cleaning</a><a href="declogging-services.html">Declogging services</a></div><div><h2>Learn</h2><a href="blog.html">Blog guides</a><a href="guides.html">Helpful guides hub</a><a href="metro-manila.html">Metro Manila</a><a href="rizal.html">Rizal</a></div><div><h2>Contact</h2><a href="tel:09997442521">{PHONE_1}</a><a href="tel:09772068785">{PHONE_2}</a><a href="viber://chat?number=%2B639274374428">Viber {VIBER}</a></div></div>
     <div class="shell legal"><span>© Jhapher Malabanan Services</span><span>Availability, access, scope, and estimate are confirmed before service.</span></div>
   </footer>
   <div class="mobile-actions"><a href="tel:09997442521">Call now</a><a href="viber://chat?number=%2B639274374428">Viber</a></div>
@@ -163,11 +208,7 @@ home_body = f'''
 ('Complete the agreed scope', 'The team attends to the confirmed work and explains any next step if another issue is discovered.'),
 ])}</div></section>
 <section class="section section-sand"><div class="shell"><div class="section-heading"><span class="kicker">Coverage with local relevance</span><h2>Service coordination across key Luzon markets.</h2><p>Pasig is the center area. Metro Manila, Rizal, Cavite, Laguna, Bulacan, and selected extended locations are handled based on schedule and practical travel access.</p></div>{area_links()}<a class="text-link prominent" href="service-areas.html">View the complete service-area guide <span>→</span></a></div></section>
-<section class="section"><div class="shell"><div class="section-heading"><span class="kicker">Useful before you book</span><h2>Helpful guides for cleaner decisions.</h2><p>Clear, plain-language answers for Filipino homeowners, property managers, and businesses dealing with septic and drainage concerns.</p></div>{cards([
-('HOMEOWNER GUIDE', 'Warning signs your septic tank may need attention', 'Learn which symptoms point to a full tank, a blocked line, or a problem that needs closer assessment.', 'septic-tank-warning-signs.html'),
-('SERVICE GUIDE', 'Siphoning, cleaning, or declogging?', 'Understand the difference so you can describe the problem clearly and request the right help.', 'services.html'),
-('BOOKING GUIDE', 'What to prepare before requesting an estimate', 'A short checklist can make the first call faster and the assessment more useful.', 'contact.html'),
-])}</div></section>
+<section class="section"><div class="shell"><div class="section-heading"><span class="kicker">Useful before you book</span><h2>Helpful guides for cleaner decisions.</h2><p>Clear, plain-language answers for Filipino homeowners, property managers, and businesses dealing with septic and drainage concerns.</p></div>{blog_cards(BLOG_POSTS, 3)}<a class="text-link prominent" href="blog.html">Browse all blog guides <span>→</span></a></div></section>
 '''
 page("index", "Septic Tank Siphoning & Declogging in Metro Manila | Jhapher", "Professional septic tank siphoning, pozo negro cleaning, and declogging centered in Pasig and serving Metro Manila, Rizal, Cavite, Laguna, and nearby areas.", "Pasig City-based · Serving key Philippine areas", "Septic and drainage problems, handled with a clearer next step.", "Baradong CR, slow drains, odor, or a full-tank concern? For homes, apartments, offices, and commercial properties, tell us the symptoms and location so the right service can be assessed before scheduling.", home_body)
 
@@ -222,26 +263,50 @@ for slug, (title, desc, eyebrow, h1, intro, locations) in area_specs.items():
 <section class="section section-sand"><div class="shell"><div class="section-heading compact"><span class="kicker">How the service works</span><h2>Plan the visit with fewer surprises</h2></div>{process_steps([('Send your exact location', 'Include city, barangay, property or subdivision name, and a useful landmark.'),('Explain the problem', 'Describe symptoms, affected fixtures, and how long the issue has been present.'),('Show practical access', 'Share safe photos of the manhole, drain, driveway, parking, or narrow access.'),('Confirm availability', 'The team discusses the likely service and schedule based on the details provided.')])}</div></section>'''
     page(slug, title, desc, eyebrow, h1, intro, body)
 
+featured = [post for post in BLOG_POSTS if post["slug"] in {
+    "septic-tank-warning-signs",
+    "siphoning-vs-declogging",
+    "barado-ang-cr-ano-gagawin",
+    "prepare-for-septic-siphoning",
+    "septic-overflow-emergency-steps",
+    "how-to-describe-clog-for-faster-help",
+}]
 guides_body = f'''
 <section class="section"><div class="shell"><div class="section-heading"><span class="kicker">Straight answers for property owners</span><h2>Helpful guides, written around real customer questions.</h2><p>These resources are designed to help you recognize warning signs, prepare useful information, and avoid choosing a service based on guesswork.</p></div>{cards([('FEATURED GUIDE','Warning signs your septic tank may need attention','A plain-language guide to slow drains, odors, gurgling, wet ground, overflow, and when a local clog may be the real issue.','septic-tank-warning-signs.html'),('SERVICE EXPLAINER','Siphoning versus declogging','Learn why a blocked toilet is not always a full septic tank and why several affected fixtures can signal a deeper concern.','services.html'),('BOOKING CHECKLIST','Prepare for a faster assessment','Know which location, access, symptom, and property details help the team give a clearer next step.','contact.html')])}</div></section>
 <section class="section section-dark"><div class="shell editorial-quote"><span>GOOD PROPERTY CARE</span><blockquote>Acting early is often less disruptive than waiting for wastewater to return, odor to worsen, or access to become an emergency.</blockquote><a class="button button-light" href="contact.html">Request an assessment</a></div></section>
 '''
 page("guides", "Septic Tank & Declogging Guides for Filipino Property Owners", "Helpful septic tank and declogging guides covering warning signs, service choices, booking preparation, and property care in the Philippines.", "Helpful guides", "Better decisions begin with understanding the warning signs.", "Practical, easy-to-read guidance for homeowners, landlords, building managers, and business owners dealing with septic and drainage concerns.", guides_body, "assets/images/septic-system.webp")
 
-article_body = f'''
-<section class="article-layout section"><article class="article shell"><p class="article-lead">A septic system usually gives clues before a serious backup. The challenge is that some signs can also come from a local drain blockage. Looking at the pattern across the property helps you describe the problem more accurately.</p>
-<h2>1. More than one drain is moving slowly</h2><p>One slow sink can be a local obstruction. When toilets, floor drains, and sinks begin slowing at the same time, the issue may involve a larger wastewater line or reduced septic capacity.</p>
-<h2>2. Toilets gurgle or water returns elsewhere</h2><p>Gurgling can happen when air is displaced inside a restricted line. Water that rises in a floor drain while another fixture is used is an important detail to report during assessment.</p>
-<figure><img src="assets/images/septic-system.webp" alt="Concept illustration of a home septic system and service access" width="1600" height="900" loading="lazy"><figcaption>A concept diagram of a residential system. Actual tank design, pipe layout, and access vary.</figcaption></figure>
-<h2>3. Persistent wastewater odor develops</h2><p>A recurring smell near drains, the yard, or an access point deserves attention. It can be connected to drainage traps, venting, waste buildup, or a septic concern. Location and timing help narrow the possibilities.</p>
-<h2>4. Wet ground appears near the system</h2><p>Unexpected wet or unusually green areas can indicate excess moisture. Avoid opening or entering any tank. Keep people away from unsafe areas and request professional assessment.</p>
-<h2>5. Wastewater begins to back up</h2><p>Backup is the clearest reason to stop using affected fixtures where practical and call. Tell the team which fixtures are involved and whether the return is clear water or wastewater.</p>
-<div class="article-callout"><h2>Siphoning or declogging?</h2><p>If only one fixture is blocked, declogging may be the likely starting point. If several fixtures are affected, the tank is overdue for maintenance, or there are odor and overflow signs, septic assessment may also be needed.</p><a class="button button-dark" href="services.html">Compare the services</a></div>
-<h2>What to send when requesting help</h2><ul><li>Exact city, barangay, and property type</li><li>Which fixtures are affected</li><li>When symptoms began and whether they are getting worse</li><li>Safe photos of the access point or affected drain</li><li>Any known maintenance history</li></ul>
-</article></section>
-<section class="section section-sand"><div class="shell"><div class="section-heading compact"><span class="kicker">How the service works</span><h2>From warning sign to clear next step</h2></div>{process_steps([('Observe the pattern','Note whether one or several fixtures are affected.'),('Share useful evidence','Send the location, symptoms, and safe photos.'),('Confirm the likely service','Discuss whether siphoning, cleaning, or declogging is the practical next step.')])}</div></section>
+category_blocks = []
+for category in CATEGORIES:
+    group = [post for post in BLOG_POSTS if post["category"] == category]
+    if not group:
+        continue
+    category_blocks.append(
+        f'<div class="blog-category"><div class="section-heading compact"><span class="kicker">{escape(category)}</span><h2>{escape(category)} guides</h2></div>{blog_cards(group)}</div>'
+    )
+blog_body = f'''
+<section class="section"><div class="shell"><div class="section-heading"><span class="kicker">Blog library</span><h2>Light, practical articles for real septic and drainage problems.</h2><p>Each guide is written to help you understand symptoms, take safer first steps, and request the right service with clearer details. No filler. No fake promises.</p></div>
+<div class="blog-stats"><span><strong>{len(BLOG_POSTS)}</strong> practical guides</span><span><strong>{len(CATEGORIES)}</strong> topic groups</span><span><strong>Real next steps</strong> on every page</span></div>
+{blog_cards(BLOG_POSTS[:6])}
+</div></section>
+<section class="section section-light"><div class="shell blog-library">{"".join(category_blocks)}</div></section>
+<section class="section section-dark"><div class="shell editorial-quote"><span>NEED HELP NOW</span><blockquote>If overflow or wastewater backup is already happening, call first. Use the guides for clearer non-urgent decisions.</blockquote><a class="button button-light" href="contact.html">Request an assessment</a></div></section>
 '''
-page("septic-tank-warning-signs", "5 Septic Tank Warning Signs Filipino Property Owners Should Know", "Learn five septic tank warning signs, how they differ from a local drain clog, and what details to prepare before requesting service.", "Homeowner education", "Five warning signs your septic system may need attention.", "Slow drains and odors are easy to ignore until they become disruptive. Here is how to read the pattern and know what information to prepare.", article_body, "assets/images/septic-system.webp", "Article")
+page("blog", "Septic & Declogging Blog Guides | Jhapher Malabanan", "Browse practical septic tank, pozo negro, and declogging guides for Filipino homeowners, landlords, and businesses across Metro Manila and nearby areas.", "Customer education blog", "Practical guides for septic, pozo negro, and drainage problems.", "Short articles with real solutions, checklists, and clearer next steps for property owners who need help without the guesswork.", blog_body, "assets/images/septic-system.webp")
+
+for post in BLOG_POSTS:
+    page(
+        post["slug"],
+        post["title"],
+        post["description"],
+        post["eyebrow"],
+        post["h1"],
+        post["intro"],
+        render_blog_article(post),
+        post["image"],
+        "Article",
+    )
 
 about_body = f'''
 <section class="section"><div class="shell split-content"><div><span class="kicker">A more professional service experience</span><h2>Clear communication before equipment arrives.</h2><p>Jhapher Malabanan is presented as a Pasig-centered septic and declogging service for households, property managers, and businesses across listed areas. The website is built around practical customer questions: What is wrong? Which service fits? Is the area covered? What should be prepared?</p><p>That approach helps customers move from worry to a useful next step without unsupported promises or confusing technical language.</p></div><div class="principles"><div><strong>01</strong><h3>Problem-first guidance</h3><p>Start with symptoms and property details before naming the service.</p></div><div><strong>02</strong><h3>Honest service scope</h3><p>Access, location, timing, and work requirements are confirmed for each request.</p></div><div><strong>03</strong><h3>Useful preparation</h3><p>Customers know what information and safe photos can improve the assessment.</p></div></div></div></section>

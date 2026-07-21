@@ -1,7 +1,10 @@
 from pathlib import Path
+import sys
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+from content.blog_posts import BLOG_POSTS, get_post_slugs
 
 CORE_PAGES = [
     "index.html",
@@ -14,9 +17,10 @@ CORE_PAGES = [
     "rizal.html",
     "cavite-laguna.html",
     "guides.html",
-    "septic-tank-warning-signs.html",
+    "blog.html",
     "about.html",
     "contact.html",
+    *[f"{slug}.html" for slug in get_post_slugs()],
 ]
 
 
@@ -33,8 +37,17 @@ class SiteContentTest(unittest.TestCase):
             "robots.txt",
             "sitemap.xml",
             "vercel.json",
+            "content/blog_posts.py",
         ]:
             self.assertTrue((ROOT / rel).exists(), f"Missing {rel}")
+
+    def test_blog_library_has_expected_coverage(self):
+        self.assertGreaterEqual(len(BLOG_POSTS), 20)
+        html = read("blog.html")
+        self.assertIn("Blog library", html)
+        self.assertIn("practical guides", html)
+        for post in BLOG_POSTS[:5]:
+            self.assertIn(f'{post["slug"]}.html', html)
 
     def test_homepage_has_core_offer_and_contacts(self):
         html = read("index.html")
@@ -48,6 +61,7 @@ class SiteContentTest(unittest.TestCase):
             "0977 206 8785",
             "0927 437 4428",
             "Baradong CR",
+            "blog.html",
         ]
         for item in required:
             self.assertIn(item, html)
@@ -90,7 +104,7 @@ class SiteContentTest(unittest.TestCase):
             self.assertNotIn(word, combined)
 
     def test_seo_and_viber_basics_present(self):
-        for rel in ["index.html", "services.html", "service-areas.html", "contact.html", "about.html"]:
+        for rel in ["index.html", "services.html", "service-areas.html", "contact.html", "about.html", "blog.html"]:
             html = read(rel)
             self.assertIn('lang="tl-PH"', html)
             self.assertIn('rel="canonical"', html)
@@ -119,6 +133,13 @@ class SiteContentTest(unittest.TestCase):
             titles.add(title)
             descriptions.add(description)
 
+    def test_blog_articles_use_article_schema_and_checklists(self):
+        for slug in get_post_slugs():
+            html = read(f"{slug}.html")
+            self.assertIn('"@type": "Article"', html)
+            self.assertIn("Related reads", html)
+            self.assertIn("How the service works", html)
+
     def test_premium_site_assets_and_conversion_paths_exist(self):
         combined = "\n".join(read(rel) for rel in CORE_PAGES)
         for rel in [
@@ -135,6 +156,7 @@ class SiteContentTest(unittest.TestCase):
             "Metro Manila",
             "Rizal",
             "Cavite and Laguna",
+            "Blog",
         ]:
             self.assertIn(phrase, combined)
 
