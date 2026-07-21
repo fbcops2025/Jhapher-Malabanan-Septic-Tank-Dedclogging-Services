@@ -12,6 +12,11 @@ This folder keeps the Jhapher Malabanan NCR website project records together wit
 - `STATUS.md`: client-project status, assumptions, and commercial notes
 - `audits/`: final NCR brand-presence and website audit PDF
 - `audit-evidence/`: screenshots and capture log supporting the audit
+- `additional-reports/`: case study, reprocessed audit, and proposal PDFs
+- `proof-images/`: Jhapher website, Google Search, and Google Maps proof images
+- `report-source-scripts/`: Jhapher-specific audit, case-study, and evidence-capture scripts copied from the local WFW repository
+
+The copied report scripts are preserved as source references. Their shared generator dependencies remain in the original local WFW repository.
 
 ## Website location
 

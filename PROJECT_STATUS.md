@@ -6,11 +6,11 @@ Centralize the Jhapher Malabanan NCR website build, project records, final audit
 
 ## Current state
 
-The complete static website is now at the repository root. Client project records, the final NCR audit PDF, and audit evidence are under `project-docs/`. The workspace is connected to the requested GitHub repository. Local website checks pass; commit and push are the current working item.
+The complete static website is at the repository root. Client project records, the final NCR audit, additional reports, audit evidence, proof images, and Jhapher-specific report scripts are under `project-docs/`. Local website checks pass and the centralized project is pushed to the requested GitHub repository.
 
 ## Current working item
 
-- [ ] Commit and push the centralized project to GitHub.
+- [ ] Continue website development after confirming production launch details.
 
 ## Checklist
 
@@ -18,7 +18,8 @@ The complete static website is now at the repository root. Client project record
 - [x] Copy all client-level project records to `project-docs/`.
 - [x] Add the final NCR audit PDF and supporting evidence.
 - [x] Run website content and static integrity checks.
-- [ ] Commit and push the centralized project to GitHub.
+- [x] Commit and push the centralized project to GitHub.
+- [x] Add all other Jhapher-generated PDFs, proof images, and report source scripts found in the local WFW repository.
 - [ ] Replace `example.com` after the final domain is confirmed.
 - [ ] Obtain final approval for concept assets and contact/service-area assumptions.
 
@@ -29,6 +30,9 @@ The complete static website is now at the repository root. Client project record
 - JSON, XML, internal-link, local-image, and harmful-placeholder checks pass.
 - Final NCR audit PDF copied to `project-docs/audits/`.
 - Ten audit evidence files copied to `project-docs/audit-evidence/`.
+- Four additional Jhapher PDFs copied to `project-docs/additional-reports/`.
+- Four Jhapher proof images copied to `project-docs/proof-images/`.
+- Three Jhapher-specific report scripts copied to `project-docs/report-source-scripts/`.
 
 ## Decisions made
 
@@ -43,7 +47,7 @@ The complete static website is now at the repository root. Client project record
 
 ## Exact next action
 
-Commit the verified centralized files and push branch `main` to the requested GitHub repository.
+Confirm the final domain and launch approvals, then continue the website build from this repository.
 
 ## Important files
 

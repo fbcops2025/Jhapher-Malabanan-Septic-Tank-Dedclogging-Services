@@ -6,7 +6,7 @@ Centralize Jhapher NCR website project in GitHub repository
 
 ## Current task
 
-- [ ] Commit and push the verified centralized project to GitHub.
+- [ ] Continue the website build after confirming the final domain and launch approvals.
 
 ## Done this session
 
@@ -14,16 +14,17 @@ Centralize Jhapher NCR website project in GitHub repository
 - [x] Copied the deployable static website to the repository root.
 - [x] Copied all client-level project records into `project-docs/`.
 - [x] Added the final NCR audit PDF and ten supporting evidence files.
+- [x] Added four other Jhapher PDFs, four proof images, and three Jhapher report source scripts from the local WFW repository.
 - [x] Passed six content tests and all static integrity checks.
+- [x] Pushed the centralized project to GitHub branch `main`.
 
 ## Still remaining
 
-- [ ] Commit and push branch `main`.
 - [ ] Confirm final domain, concept assets, primary contact hierarchy, and service-area wording before production launch.
 
 ## Blocker / waiting for
 
-- No blocker for GitHub upload. Production launch still requires the final domain and approvals listed in `PROJECT_STATUS.md`.
+- Production launch still requires the final domain and approvals listed in `PROJECT_STATUS.md`.
 
 ## Files changed or created
 
@@ -33,7 +34,7 @@ Centralize Jhapher NCR website project in GitHub repository
 
 ## Exact next action
 
-Commit and push the centralized project to the requested repository, then verify the remote commit.
+Confirm the final domain and approvals, then continue the website build from the GitHub repository.
 
 ## Do not redo
 
