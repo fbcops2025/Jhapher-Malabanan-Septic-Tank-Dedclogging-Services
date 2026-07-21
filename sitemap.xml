@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://example.com/</loc></url>
-  <url><loc>https://example.com/services</loc></url>
-  <url><loc>https://example.com/service-areas</loc></url>
-  <url><loc>https://example.com/contact</loc></url>
-  <url><loc>https://example.com/about</loc></url>
+  <url><loc>https://example.com/</loc><priority>1.0</priority></url>
+  <url><loc>https://example.com/services</loc><priority>0.8</priority></url>
+  <url><loc>https://example.com/septic-tank-siphoning</loc><priority>0.8</priority></url>
+  <url><loc>https://example.com/pozo-negro-cleaning</loc><priority>0.8</priority></url>
+  <url><loc>https://example.com/declogging-services</loc><priority>0.8</priority></url>
+  <url><loc>https://example.com/service-areas</loc><priority>0.8</priority></url>
+  <url><loc>https://example.com/metro-manila</loc><priority>0.8</priority></url>
+  <url><loc>https://example.com/rizal</loc><priority>0.8</priority></url>
+  <url><loc>https://example.com/cavite-laguna</loc><priority>0.8</priority></url>
+  <url><loc>https://example.com/guides</loc><priority>0.8</priority></url>
+  <url><loc>https://example.com/septic-tank-warning-signs</loc><priority>0.8</priority></url>
+  <url><loc>https://example.com/about</loc><priority>0.8</priority></url>
+  <url><loc>https://example.com/contact</loc><priority>0.8</priority></url>
 </urlset>

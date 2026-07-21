@@ -3,6 +3,22 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
 
+CORE_PAGES = [
+    "index.html",
+    "services.html",
+    "septic-tank-siphoning.html",
+    "pozo-negro-cleaning.html",
+    "declogging-services.html",
+    "service-areas.html",
+    "metro-manila.html",
+    "rizal.html",
+    "cavite-laguna.html",
+    "guides.html",
+    "septic-tank-warning-signs.html",
+    "about.html",
+    "contact.html",
+]
+
 
 def read(rel):
     return (ROOT / rel).read_text(encoding="utf-8")
@@ -11,12 +27,9 @@ def read(rel):
 class SiteContentTest(unittest.TestCase):
     def test_core_static_files_exist(self):
         for rel in [
-            "index.html",
-            "services.html",
-            "service-areas.html",
-            "contact.html",
-            "about.html",
+            *CORE_PAGES,
             "styles.css",
+            "site.js",
             "robots.txt",
             "sitemap.xml",
             "vercel.json",
@@ -85,11 +98,45 @@ class SiteContentTest(unittest.TestCase):
             self.assertIn('%2B639274374428', html)
 
     def test_contact_numbers_are_consistent_on_all_pages(self):
-        for rel in ["index.html", "services.html", "service-areas.html", "contact.html", "about.html"]:
+        for rel in CORE_PAGES:
             html = read(rel)
             self.assertIn("0999 744 2521", html)
             self.assertIn("0977 206 8785", html)
             self.assertIn("0927 437 4428", html)
+
+    def test_every_page_has_unique_search_metadata_and_one_h1(self):
+        titles = set()
+        descriptions = set()
+        for rel in CORE_PAGES:
+            html = read(rel)
+            self.assertEqual(html.count("<h1"), 1, f"{rel} must have one H1")
+            self.assertIn('name="description"', html)
+            self.assertIn('rel="canonical"', html)
+            title = html.split("<title>", 1)[1].split("</title>", 1)[0]
+            description = html.split('name="description" content="', 1)[1].split('"', 1)[0]
+            self.assertNotIn(title, titles, f"Duplicate title: {title}")
+            self.assertNotIn(description, descriptions, f"Duplicate description: {description}")
+            titles.add(title)
+            descriptions.add(description)
+
+    def test_premium_site_assets_and_conversion_paths_exist(self):
+        combined = "\n".join(read(rel) for rel in CORE_PAGES)
+        for rel in [
+            "assets/images/hero-service.webp",
+            "assets/images/septic-system.webp",
+            "assets/images/declogging-equipment.webp",
+        ]:
+            self.assertTrue((ROOT / rel).exists(), f"Missing premium artwork {rel}")
+            self.assertIn(rel, combined)
+        for phrase in [
+            "Request an assessment",
+            "How the service works",
+            "Helpful guides",
+            "Metro Manila",
+            "Rizal",
+            "Cavite and Laguna",
+        ]:
+            self.assertIn(phrase, combined)
 
 
 if __name__ == "__main__":

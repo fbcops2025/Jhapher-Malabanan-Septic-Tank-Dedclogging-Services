@@ -6,7 +6,21 @@ import sys
 import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[1]
-HTML_FILES = ["index.html", "services.html", "service-areas.html", "contact.html", "about.html"]
+HTML_FILES = [
+    "index.html",
+    "services.html",
+    "septic-tank-siphoning.html",
+    "pozo-negro-cleaning.html",
+    "declogging-services.html",
+    "service-areas.html",
+    "metro-manila.html",
+    "rizal.html",
+    "cavite-laguna.html",
+    "guides.html",
+    "septic-tank-warning-signs.html",
+    "contact.html",
+    "about.html",
+]
 
 
 class SiteParser(HTMLParser):
@@ -88,8 +102,8 @@ def main():
 
     ET.parse(ROOT / "sitemap.xml")
     print("XML parse OK: sitemap.xml")
-    print("Internal links OK across 5 HTML files")
-    print("Local images OK across 5 HTML files")
+    print(f"Internal links OK across {len(HTML_FILES)} HTML files")
+    print(f"Local images OK across {len(HTML_FILES)} HTML files")
 
     combined = "\n".join((ROOT / rel).read_text(encoding="utf-8").lower() for rel in HTML_FILES)
     harmful_patterns = [

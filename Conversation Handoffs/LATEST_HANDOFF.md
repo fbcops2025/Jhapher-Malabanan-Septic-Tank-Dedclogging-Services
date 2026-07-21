@@ -2,42 +2,45 @@
 
 ## Session title
 
-Centralize Jhapher NCR website project in GitHub repository
+Premium v1.2 website redesign and SEO expansion
 
 ## Current task
 
-- [ ] Continue the website build after confirming the final domain and launch approvals.
+- [ ] Review and approve the local v1.2 redesign before commit or push.
 
 ## Done this session
 
-- [x] Connected this workspace to the requested GitHub repository.
-- [x] Copied the deployable static website to the repository root.
-- [x] Copied all client-level project records into `project-docs/`.
-- [x] Added the final NCR audit PDF and ten supporting evidence files.
-- [x] Added four other Jhapher PDFs, four proof images, and three Jhapher report source scripts from the local WFW repository.
-- [x] Passed six content tests and all static integrity checks.
-- [x] Pushed the centralized project to GitHub branch `main`.
+- [x] Created local branch `v1.2` from `origin/main`.
+- [x] Rebuilt the site into a premium 13-page static website.
+- [x] Added service pages, Metro Manila/Rizal/Cavite-Laguna landing pages, guides, and educational content.
+- [x] Added three optimized original concept images and responsive mobile interactions.
+- [x] Added expanded SEO metadata, structured data, sitemap entries, and internal linking.
+- [x] Passed eight content tests and static checks across all 13 pages.
+- [x] Completed desktop and 390px mobile visual QA with no console errors.
 
 ## Still remaining
 
-- [ ] Confirm final domain, concept assets, primary contact hierarchy, and service-area wording before production launch.
+- [ ] Approve design, copy, concept images, contact hierarchy, and service-area wording.
+- [ ] Confirm the final domain and replace `example.com`.
+- [ ] Commit and push local branch `v1.2` after approval.
 
 ## Blocker / waiting for
 
-- Production launch still requires the final domain and approvals listed in `PROJECT_STATUS.md`.
+- User approval is required before commit, push, or production launch.
 
 ## Files changed or created
 
-- Root website files and assets.
-- `project-docs/`: project records, final audit PDF, and evidence.
-- `PROJECT_STATUS.md`: current recovery state and launch blockers.
+- 13 root HTML pages, `styles.css`, `site.js`, and `sitemap.xml`.
+- `assets/images/`: three optimized concept images.
+- `scripts/build_site.py`: consistent static-page generator.
+- Updated tests, static checker, and recovery notes.
 
 ## Exact next action
 
-Confirm the final domain and approvals, then continue the website build from the GitHub repository.
+Review the local v1.2 preview and decide whether to commit and push it.
 
 ## Do not redo
 
-- Do not recopy the WFW source folders unless the source files change.
-- Do not regenerate the audit unless requested.
-- Do not rerun checks unless files change or the push needs verification.
+- Do not regenerate the concept images unless the current direction is rejected.
+- Do not rebuild pages manually. Update `scripts/build_site.py`, then regenerate.
+- Do not commit, push, or deploy without approval.
