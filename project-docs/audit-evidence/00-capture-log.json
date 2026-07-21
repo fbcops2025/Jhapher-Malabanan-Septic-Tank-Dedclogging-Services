@@ -1,0 +1,50 @@
+[
+  {
+    "key": "current_cdo_home",
+    "url": "https://cdosepticservices.com/",
+    "file": "01-current-cdo-homepage.png",
+    "status": "ok"
+  },
+  {
+    "key": "current_cdo_declogging",
+    "url": "https://cdosepticservices.com/services/toilet-declogging",
+    "file": "02-current-cdo-declogging-page.png",
+    "status": "ok"
+  },
+  {
+    "key": "facebook_pasig_page",
+    "url": "https://www.facebook.com/104199985500619/",
+    "file": "03-facebook-pasig-page-attempt.png",
+    "status": "ok"
+  },
+  {
+    "key": "facebook_jhapher_post_metro",
+    "url": "https://www.facebook.com/100077168727790/posts/jhapher-malabanan-habwasuyop-septic-tank-sipsip-pozo-negro-servicescontact-numbe/775617388353878/",
+    "file": "04-facebook-metro-service-area-post-attempt.png",
+    "status": "ok"
+  },
+  {
+    "key": "maps_pasig_query",
+    "url": "https://www.google.com/maps/search/Jhapher+Malabanan+Pozo+Negro+Excavating+Septic+Tank+Declogging+Services+Pasig",
+    "file": "05-google-maps-pasig-query.png",
+    "status": "ok"
+  },
+  {
+    "key": "rose_competitor",
+    "url": "https://rosemalabanansiphoning.com/services/septic-tank-siphoning/",
+    "file": "06-competitor-rose-service-page.png",
+    "status": "ok"
+  },
+  {
+    "key": "wix_competitor",
+    "url": "https://247malabanan.wixsite.com/malabanan",
+    "file": "07-competitor-wix-malabanan-page.png",
+    "status": "ok"
+  },
+  {
+    "key": "rtg_competitor",
+    "url": "https://www.malabanansiphoningrtg.com/services",
+    "file": "08-competitor-rtg-services-page.png",
+    "status": "ok"
+  }
+]

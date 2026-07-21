@@ -1,0 +1,15 @@
+# Python/cache
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Local-only logs/env
+*.log
+.env
+.env.*
