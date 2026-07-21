@@ -138,6 +138,16 @@ class SiteContentTest(unittest.TestCase):
         ]:
             self.assertIn(phrase, combined)
 
+    def test_header_and_footer_use_the_same_brand_format(self):
+        for rel in CORE_PAGES:
+            html = read(rel)
+            self.assertEqual(html.count("<strong>Jhapher Malabanan</strong>"), 2, rel)
+            self.assertEqual(
+                html.count("<small>Septic Tank and Declogging Services</small>"),
+                2,
+                rel,
+            )
+
 
 if __name__ == "__main__":
     unittest.main()

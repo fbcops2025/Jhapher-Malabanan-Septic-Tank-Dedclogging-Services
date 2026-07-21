@@ -156,7 +156,9 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .closing-actions .button-outline { color: var(--navy); border-color: #9d9f9b; }
 .site-footer { background: #03111e; color: #dbe4e9; padding: 76px 0 28px; }
 .footer-grid { display: grid; grid-template-columns: 2fr repeat(3, 1fr); gap: 54px; }
-.footer-brand strong { color: var(--white); letter-spacing: .18em; }
+.footer-brand { display: flex; flex-direction: column; align-items: flex-start; }
+.footer-brand strong { color: var(--white); font-family: Georgia, "Times New Roman", serif; font-size: 22px; font-weight: 500; letter-spacing: -.01em; }
+.footer-brand small { margin-top: 7px; color: #aabcc9; font-size: 10px; letter-spacing: .045em; }
 .footer-brand p { max-width: 360px; color: #8295a2; font-size: 14px; }
 .site-footer h2 { margin: 0 0 18px; color: #8295a2; font-size: 11px; letter-spacing: .13em; text-transform: uppercase; }
 .site-footer a { display: block; margin: 9px 0; text-decoration: none; font-size: 14px; }
